@@ -75,12 +75,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { createComponent, ref } from '@vue/composition-api'
 
-export default Vue.extend({
-  name: 'HelloWorld',
-  props: {
-    msg: String,
+export default createComponent({
+  setup() {
+    const msg = ref('Hello Vue with v3 API!')
+
+    return {
+      msg,
+    }
   },
 })
 </script>

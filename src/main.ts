@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import VueCompositionApi from '@vue/composition-api'
+import hooks from '@u3u/vue-hooks'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
@@ -8,6 +10,9 @@ import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
 
 Vue.config.productionTip = false
+
+Vue.use(hooks)
+Vue.use(VueCompositionApi)
 
 new Vue({
   router,

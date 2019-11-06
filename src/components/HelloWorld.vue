@@ -78,12 +78,17 @@
 import { createComponent, ref } from '@vue/composition-api'
 
 export default createComponent({
-  setup() {
-    const msg = ref('Hello Vue with v3 API!')
+  name: 'HelloWorld',
+  props: {
+    msg: String,
+  },
+  setup(props, context) {
+    console.log('props:')
+    console.log(props)
+    console.log('context:')
+    console.log(context)
 
-    return {
-      msg,
-    }
+    return {} // las props se pasan automáticamente, no es necesario devolverlas aquí.
   },
 })
 </script>

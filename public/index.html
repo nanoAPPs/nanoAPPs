@@ -1,17 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>nanoapps</title>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but nanoapps doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
+  <title>nanoAPPs</title>
+  <meta name="application-name" content="nanoAPPs">
+  <link rel="manifest" href="<%= BASE_URL%>manifest.json">
+  <link rel="icon" type="image/png" sizes="32x32" href="<%=BASE_URL%>icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="<%=BASE_URL%>icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="<%=BASE_URL%>icons/android-chrome-192x192.png">
+  <!--[if IE]><link rel="shortcut icon" href="<%=BASE_URL %>icons/favicon.ico"><![endif]-->
+  <link rel="icon" href="<%=BASE_URL%>favicon.ico">
+  <!-- Add to home screen for Safari on iOS -->
+  <link rel="apple-touch-icon" href="<%=BASE_URL%>icons/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="57x57" href="<%=BASE_URL%>icons/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="<%=BASE_URL%>icons/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="<%=BASE_URL%>icons/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="<%=BASE_URL%>icons/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="<%=BASE_URL%>icons/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="<%=BASE_URL%>icons/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="<%=BASE_URL%>icons/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="<%=BASE_URL%>icons/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="<%=BASE_URL%>icons/apple-touch-icon-180x180.png">
+  <!-- Safari Pinned Tab -->
+  <link rel="mask-icon" href="<%=BASE_URL%>icons/safari-pinned-tab.svg" color="#5bbad5">
+  <!-- Add to home screen for Windows -->
+  <meta name="msapplication-config" content="<%=BASE_URL%>browserconfig.xml">
+  <meta name="msapplication-TileImage" content="<%=BASE_URL%>icons/msapplication-icon-144x144.png">
+  <meta name="msapplication-TileColor" content="#00b6ff">
+</head>
+
+<body>
+  <noscript>
+    <div style=width:100%;height:130px;text-align:center;margin-top:30px;display:block;>
+      <img src="/img/logo.png">
+    </div>
+    <div
+      style=width:100%;height:50px;text-align:center;margin-top:30px;display:block;font-family:tahoma,sans-serif;font-size:1.2em>
+      Vaya! no se ha podido iniciar la aplicación, necesitamos que actives Javascript!
+    </div>
+  </noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+
 </html>

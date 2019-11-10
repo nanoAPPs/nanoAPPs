@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <img alt="nanoAPPs logo" src="@/assets/img/logo.png" />
+    <HelloWorld msg="Welcome to nanoAPPs" />
   </div>
 </template>
 
@@ -24,3 +24,10 @@ export default createComponent({
   },
 })
 </script>
+
+<style lang="scss" scoped>
+.home {
+  width: 100%;
+  text-align: center;
+}
+</style>

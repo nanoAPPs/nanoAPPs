@@ -10,14 +10,17 @@ export default new Vuetify({
     },
     themes: {
       light: {
-        primary: '#ee44aa',
-        secondary: '#424242',
-        accent: '#82B1FF',
-        error: '#FF5252',
-        info: '#2196F3',
-        success: '#4CAF50',
-        warning: '#FFC107',
+        primary: '#137bbd',
+        secondary: '#00c000',
+        accent: '#f00000', // '#82B1FF',
+        error: '#db2828',
+        info: '#31ccec',
+        success: '#21ba45',
+        warning: '#f2c037',
       },
     },
+  },
+  icons: {
+    iconfont: 'mdi',
   },
 })

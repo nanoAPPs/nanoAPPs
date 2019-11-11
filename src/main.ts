@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueCompositionApi from '@vue/composition-api'
-import hooks from '@u3u/vue-hooks'
 import router from '@/services/router'
 import store from '@/services/store'
 import vuetify from './plugins/vuetify'
@@ -23,7 +22,6 @@ Vue.config.productionTip = process.env.NODE_ENV === 'production'
 
 log('main', 'Start Vue App')
 
-Vue.use(hooks)
 Vue.use(VueCompositionApi)
 
 new Vue({

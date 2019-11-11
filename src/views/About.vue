@@ -23,10 +23,9 @@ export default createComponent({
 })
 </script>
 
-<style lang="scss" scoped>
-.about {
-  width: 100%;
-  text-align: center;
-  font-family: 'Handlee', script !important;
-}
+<style lang="sass" scoped>
+.about
+  width: 100%
+  text-align: center
+  font-family: 'Handlee', script !important
 </style>

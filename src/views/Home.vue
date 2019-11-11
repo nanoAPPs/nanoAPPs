@@ -28,9 +28,8 @@ export default createComponent({
 })
 </script>
 
-<style lang="scss" scoped>
-.home {
-  width: 100%;
-  text-align: center;
-}
+<style lang="sass" scoped>
+.home
+  width: 100%
+  text-align: center
 </style>

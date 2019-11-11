@@ -12,7 +12,7 @@ import '@/registerServiceWorker'
 import '@/assets/font/muli-font.css'
 import '@/assets/font/handlee-font.css'
 import '@mdi/font/css/materialdesignicons.css'
-import '@/styles/main.scss'
+import '@/styles/main.sass'
 
 Vue.config.productionTip = false
 

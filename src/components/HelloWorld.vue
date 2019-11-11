@@ -6,6 +6,9 @@
 
 <script lang="ts">
 import { createComponent, ref } from '@vue/composition-api'
+// Log
+import { getLogger } from '@/services/logging'
+const log = getLogger('HelloWorld')
 
 export default createComponent({
   name: 'HelloWorld',
@@ -13,10 +16,10 @@ export default createComponent({
     msg: String,
   },
   setup(props, context) {
-    console.log('props:')
-    console.log(props)
-    console.log('context:')
-    console.log(context)
+    log('props:')
+    log(props)
+    log('context:')
+    log(context)
 
     return {} // las props se pasan automáticamente, no es necesario devolverlas aquí.
   },

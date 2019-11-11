@@ -34,16 +34,19 @@
 
 <script lang="ts">
 import { createComponent, ref } from '@vue/composition-api'
+// Log
+import { getLogger } from '@/services/logging'
+const log = getLogger('App')
 
 export default createComponent({
   props: {
     source: String,
   },
   setup(props, context) {
-    console.log('props:')
-    console.log(props)
-    console.log('context:')
-    console.log(context)
+    log('props:')
+    log(props)
+    log('context:')
+    log(context)
     let title = ref('nanoAPPs')
     let drawer = ref(false)
     let links = ref([

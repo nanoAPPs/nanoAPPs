@@ -13,10 +13,8 @@ const log = getLogger('About')
 export default createComponent({
   name: 'about',
   setup(props, context) {
-    log('props:')
-    log(props)
-    log('context:')
-    log(context)
+    log('props: ', props)
+    log('context: ', context)
 
     return {} // las props se pasan automáticamente, no es necesario devolverlas aquí.
   },

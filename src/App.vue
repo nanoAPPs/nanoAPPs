@@ -43,10 +43,8 @@ export default createComponent({
     source: String,
   },
   setup(props, context) {
-    log('props:')
-    log(props)
-    log('context:')
-    log(context)
+    log('props: ', props)
+    log('context: ', context)
     let title = ref('nanoAPPs')
     let drawer = ref(false)
     let links = ref([

@@ -21,10 +21,10 @@
       </v-btn>
     </v-app-bar>
 
-    <v-system-bar v-if="updateAvailable" color="warning" fixed window app @click.stop="applyUpdateBtn" class="center">
+    <v-system-bar v-if="updateAvailable" color="warning" fixed window app class="center">
       <div class="flex">
         <v-icon>mdi-alert</v-icon>
-        <span>There is a new version of the app. Click this bar to reload.</span>
+        <span>There is a new version of the app. Restart to open new version.</span>
       </div>
     </v-system-bar>
 
@@ -59,7 +59,7 @@ export default createComponent({
     source: String,
   },
   setup(props, context) {
-    let version = ref('0.1.13')
+    let version = ref('0.1.14')
     let title = ref('nanoAPPs')
     let drawer = ref(false)
     let fullscreenEnabled = ref(screenfull.isEnabled)
@@ -111,9 +111,6 @@ export default createComponent({
         }
       },
       updateAvailable,
-      applyUpdateBtn() {
-        window.location.reload(true)
-      },
     }
   },
 })

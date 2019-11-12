@@ -34,14 +34,9 @@
       </v-container>
     </v-content>
     <v-footer color="primary" dark app class="footer-shadow">
-      <span class="font-weight-light">
-        &nbsp;&nbsp;&nbsp;&copy;
-        {{ new Date().getFullYear() }}
-        nanoAPPs, made with
-        <v-icon size="17">mdi-heart</v-icon>&nbsp;for better apps
-      </span>
-      <div class="flex-grow-1"></div>
       <span class="font-weight-light">v.{{ version }}</span>
+      <div class="flex-grow-1"></div>
+      <span class="font-weight-light">.</span>
     </v-footer>
   </v-app>
 </template>
@@ -59,7 +54,7 @@ export default createComponent({
     source: String,
   },
   setup(props, context) {
-    let version = ref('0.1.14')
+    let version = ref('0.1.15')
     let title = ref('nanoAPPs')
     let drawer = ref(false)
     let fullscreenEnabled = ref(screenfull.isEnabled)

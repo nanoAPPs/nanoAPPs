@@ -21,6 +21,13 @@
       </v-btn>
     </v-app-bar>
 
+    <v-system-bar v-if="updateAvailable" color="warning" fixed window app @click.stop="applyUpdateBtn" class="center">
+      <div class="flex">
+        <v-icon>mdi-alert</v-icon>
+        <span>There is a new version of the app. Click this bar to reload.</span>
+      </div>
+    </v-system-bar>
+
     <v-content>
       <v-container class="fill-height" fluid>
         <router-view />
@@ -33,6 +40,8 @@
         nanoAPPs, made with
         <v-icon size="17">mdi-heart</v-icon>&nbsp;for better apps
       </span>
+      <div class="flex-grow-1"></div>
+      <span class="font-weight-light">v.{{ version }}</span>
     </v-footer>
   </v-app>
 </template>
@@ -54,14 +63,17 @@ export default createComponent({
     log('context: ', context)
     let title = ref('nanoAPPs')
     let drawer = ref(false)
+    let version = ref('0.1.12')
     let fullscreenEnabled = ref(screenfull.isEnabled)
     let isFullscreen = ref(screenfull.isEnabled && screenfull.isFullscreen)
+    let updateAvailable = ref(false)
+
     if (screenfull.isEnabled) {
       screenfull.on('change', () => {
-        log('changed screenfull: ', screenfull.isEnabled && screenfull.isFullscreen ? 'Yes' : 'No')
         isFullscreen.value = screenfull.isEnabled && screenfull.isFullscreen
       })
     }
+
     let links = ref([
       {
         to: '/',
@@ -75,15 +87,21 @@ export default createComponent({
       },
     ])
 
+    window.nanoapps_pwa_updated = function() {
+      // vetur reporta un error en la línea anterior, pero Typescript compila
+      updateAvailable.value = true
+    }
+
     return {
       title,
       drawer,
-      fullscreenEnabled,
-      isFullscreen,
+      version,
       links,
       onClickNavIconBtn() {
         drawer.value = !drawer.value
       },
+      fullscreenEnabled,
+      isFullscreen,
       toggleFullscreenBtn() {
         var elem = document.documentElement
         if (screenfull.isEnabled) {
@@ -94,12 +112,18 @@ export default createComponent({
           }
         }
       },
+      updateAvailable,
+      applyUpdateBtn() {
+        window.location.reload(true)
+      },
     }
   },
 })
 </script>
 
 <style lang="sass">
+.v-system-bar.center
+  text-align: center
 .footer-shadow
   box-shadow: 0 -3px 3px -2px rgba(0, 0, 0, 0.2), 0 -3px 4px 0 rgba(0, 0, 0, 0.14), 0 -1px 8px 0 rgba(0, 0, 0, 0.12)
   -webkit-box-shadow: 0 -3px 3px -2px rgba(0, 0, 0, 0.2), 0 -3px 4px 0 rgba(0, 0, 0, 0.14), 0 -1px 8px 0 rgba(0, 0, 0, 0.12)

@@ -56,6 +56,12 @@ export default createComponent({
     let drawer = ref(false)
     let fullscreenEnabled = ref(screenfull.isEnabled)
     let isFullscreen = ref(screenfull.isEnabled && screenfull.isFullscreen)
+    if (screenfull.isEnabled) {
+      screenfull.on('change', () => {
+        log('changed screenfull: ', screenfull.isEnabled && screenfull.isFullscreen ? 'Yes' : 'No')
+        isFullscreen.value = screenfull.isEnabled && screenfull.isFullscreen
+      })
+    }
     let links = ref([
       {
         to: '/',
@@ -83,10 +89,8 @@ export default createComponent({
         if (screenfull.isEnabled) {
           if (!screenfull.isFullscreen) {
             screenfull.request(elem)
-            isFullscreen.value = true
           } else {
             screenfull.exit()
-            isFullscreen.value = false
           }
         }
       },

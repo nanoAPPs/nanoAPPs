@@ -11,7 +11,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar color="primary" dark app>
+    <v-app-bar color="primary" dark dense app>
       <v-app-bar-nav-icon @click.stop="onClickNavIconBtn" />
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <div class="flex-grow-1"></div>
@@ -36,7 +36,7 @@
     <v-footer color="primary" dark app class="footer-shadow">
       <span class="font-weight-light">v.{{ version }}</span>
       <div class="flex-grow-1"></div>
-      <span class="font-weight-light"></span>
+      <span class="font-weight-light">{{ $vuetify.breakpoint.name }}</span>
     </v-footer>
   </v-app>
 </template>
@@ -54,7 +54,7 @@ export default createComponent({
     source: String,
   },
   setup(props, context) {
-    let version = ref('0.1.18')
+    let version = ref('0.1.19')
     let title = ref('nanoAPPs')
     let drawer = ref(false)
     let fullscreenEnabled = ref(screenfull.isEnabled)

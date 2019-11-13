@@ -24,7 +24,7 @@
     <v-system-bar v-if="updateAvailable" color="warning" fixed window app class="center">
       <div class="flex">
         <v-icon>mdi-alert</v-icon>
-        <span>There is a new version of the app. Restart to open new version.</span>
+        <span>Please, restart to load new version of the APP.</span>
       </div>
     </v-system-bar>
 
@@ -54,7 +54,7 @@ export default createComponent({
     source: String,
   },
   setup(props, context) {
-    let version = ref('0.1.17')
+    let version = ref('0.1.18')
     let title = ref('nanoAPPs')
     let drawer = ref(false)
     let fullscreenEnabled = ref(screenfull.isEnabled)

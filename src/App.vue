@@ -1,6 +1,18 @@
 <template>
   <v-app id="nanoapps">
     <v-navigation-drawer v-model="drawer" app>
+      <v-list id="app_drawer_title" dense>
+        <v-list-item color="primary">
+          <div class="title-header">
+            <v-avatar class="title-image" size="60">
+              <v-img :src="logo" />
+            </v-avatar>
+          </div>
+          <div class="title-text">
+            nanoAPPs
+          </div>
+        </v-list-item>
+      </v-list>
       <v-list dense>
         <v-list-item v-for="(link, i) in links" :key="i" :to="link.to">
           <v-list-item-action>
@@ -11,7 +23,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar color="primary" dark dense app>
+    <v-app-bar color="primary" dense dark app>
       <v-app-bar-nav-icon @click.stop="onClickNavIconBtn" />
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <div class="flex-grow-1"></div>
@@ -21,7 +33,7 @@
       </v-btn>
     </v-app-bar>
 
-    <v-system-bar v-if="updateAvailable" color="warning" fixed window app class="center">
+    <v-system-bar v-if="updateAvailable" color="warning-lighten1" fixed window app class="center">
       <div class="flex">
         <v-icon>mdi-alert</v-icon>
         <span>Please, restart to load new version of the APP.</span>
@@ -33,7 +45,7 @@
         <router-view />
       </v-container>
     </v-content>
-    <v-footer color="primary" dark app class="footer-shadow">
+    <v-footer color="primary" class="footer-shadow" dark app>
       <span class="font-weight-light">v.{{ version }}</span>
       <div class="flex-grow-1"></div>
       <span class="font-weight-light">{{ $vuetify.breakpoint.name }}</span>
@@ -54,12 +66,13 @@ export default createComponent({
     source: String,
   },
   setup(props, context) {
-    let version = ref('0.1.19')
+    let version = ref('0.1.20')
     let title = ref('nanoAPPs')
     let drawer = ref(false)
     let fullscreenEnabled = ref(screenfull.isEnabled)
     let isFullscreen = ref(screenfull.isEnabled && screenfull.isFullscreen)
     let updateAvailable = ref(false)
+    let logo = require('@/assets/img/avatar-logo.png')
 
     if (screenfull.isEnabled) {
       screenfull.on('change', () => {
@@ -106,14 +119,42 @@ export default createComponent({
         }
       },
       updateAvailable,
+      logo,
     }
   },
 })
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
+#app_drawer_title
+  padding: 0
+#app_drawer_title
+  .v-list-item
+    padding: 0
+    display: block
+  .title-header
+    display: block
+    float: left
+    width: 100%
+    height: 48px
+    background-color: var(--v-primary-base)
+  .title-text
+    display: block
+    float: left
+    width: 100%
+    padding-top: 4px
+    padding-bottom: 10px
+    color: black
+    font-weight: bold
+    margin-left: 75px
+  .title-image
+    position: relative
+    top: 25px
+    margin-left: 10px
 .v-system-bar.center
   text-align: center
+.v-footer
+  font-size: smaller
 .footer-shadow
   box-shadow: 0 -3px 3px -2px rgba(0, 0, 0, 0.2), 0 -3px 4px 0 rgba(0, 0, 0, 0.14), 0 -1px 8px 0 rgba(0, 0, 0, 0.12)
   -webkit-box-shadow: 0 -3px 3px -2px rgba(0, 0, 0, 0.2), 0 -3px 4px 0 rgba(0, 0, 0, 0.14), 0 -1px 8px 0 rgba(0, 0, 0, 0.12)

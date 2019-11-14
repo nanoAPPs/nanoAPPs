@@ -5,7 +5,7 @@
         <v-list-item color="primary">
           <div class="title-header">
             <v-avatar class="title-image" size="60">
-              <v-img :src="logo" />
+              <v-img src="@/assets/img/avatar-logo.png" eager />
             </v-avatar>
           </div>
           <div class="title-text">
@@ -66,13 +66,12 @@ export default createComponent({
     source: String,
   },
   setup(props, context) {
-    let version = ref('0.1.20')
+    let version = ref('0.1.21')
     let title = ref('nanoAPPs')
     let drawer = ref(false)
     let fullscreenEnabled = ref(screenfull.isEnabled)
     let isFullscreen = ref(screenfull.isEnabled && screenfull.isFullscreen)
     let updateAvailable = ref(false)
-    let logo = require('@/assets/img/avatar-logo.png')
 
     if (screenfull.isEnabled) {
       screenfull.on('change', () => {
@@ -119,7 +118,6 @@ export default createComponent({
         }
       },
       updateAvailable,
-      logo,
     }
   },
 })

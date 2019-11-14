@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <v-img alt="nanoAPPs logo" src="@/assets/img/logo.png" />
+    <img alt="nanoAPPs logo" src="@/assets/img/logo.png" />
     <HelloWorld msg="Welcome to nanoAPPs" />
   </div>
 </template>

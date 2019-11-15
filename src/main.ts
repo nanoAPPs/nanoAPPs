@@ -2,7 +2,8 @@ import Vue from 'vue'
 import VueCompositionApi from '@vue/composition-api'
 import router from '@/services/router'
 import store from '@/services/store'
-import vuetify from './plugins/vuetify'
+import vuetify from '@/plugins/vuetify'
+import { setVueRuntime } from '@/utils/vueRuntime'
 // Application import
 import App from '@/App.vue'
 // ServiceWorker
@@ -24,9 +25,11 @@ log('main', 'Start Vue App')
 
 Vue.use(VueCompositionApi)
 
-new Vue({
+const vm = new Vue({
   router,
   store,
   vuetify,
   render: h => h(App),
-}).$mount('#app')
+})
+setVueRuntime(vm)
+vm.$mount('#app')

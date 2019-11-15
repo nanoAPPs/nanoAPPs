@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import { RouterOptions, RouteConfig } from 'vue-router'
+import { computed } from '@vue/composition-api'
+import { getVueRuntime } from '@/utils/vueRuntime'
+
 import Home from '@/views/Home.vue'
 
 Vue.use(VueRouter)
@@ -30,3 +33,9 @@ const router = new VueRouter(<RouterOptions>{
 })
 
 export default router
+
+export function useRouter() {
+  const vm = getVueRuntime()
+  const route = computed(() => vm.$route)
+  return { route, router: vm.$router }
+}

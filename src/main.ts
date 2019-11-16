@@ -21,7 +21,7 @@ const log = getLogger('main')
 // Don't warn about using the dev version of Vue in development.
 Vue.config.productionTip = process.env.NODE_ENV === 'production'
 
-log('main', 'Start Vue App')
+log('main', 'Start Vue App v.' + process.env.VUE_APP_VERSION)
 
 Vue.use(VueCompositionApi)
 

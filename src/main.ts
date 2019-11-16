@@ -27,7 +27,7 @@ Vue.use(VueCompositionApi)
 
 const vm = new Vue({
   router,
-  store,
+  store: store.original,
   vuetify,
   render: h => h(App),
 })

@@ -66,7 +66,7 @@ export default createComponent({
     source: String,
   },
   setup(props, context) {
-    let version = ref('0.1.27')
+    let version = ref('0.1.28')
     let title = ref('nanoAPPs')
     let drawer = ref(false)
     let fullscreenEnabled = ref(screenfull.isEnabled)

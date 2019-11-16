@@ -1,6 +1,6 @@
 <template>
   <v-app id="nanoapps">
-    <v-navigation-drawer v-model="drawer" app>
+    <v-navigation-drawer v-model="drawer" mobile-break-point="991" enable-resize-watcher app>
       <v-list id="app_drawer_title" dense>
         <v-list-item color="primary">
           <div class="title-header">

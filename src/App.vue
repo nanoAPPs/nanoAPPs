@@ -57,6 +57,7 @@
 import { createComponent, ref } from '@vue/composition-api'
 import screenfull from 'screenfull'
 import { Screenfull } from 'screenfull'
+import store from '@/services/store'
 // Log
 import { getLogger } from '@/services/logging'
 const log = getLogger('App')
@@ -66,7 +67,7 @@ export default createComponent({
     source: String,
   },
   setup(props, context) {
-    let version = ref(process.env.VUE_APP_VERSION + ' ' + process.env.NODE_ENV)
+    let version = ref(store.state.appVersion)
     let title = ref('nanoAPPs')
     let drawer = ref(false)
     let fullscreenEnabled = ref(screenfull.isEnabled)

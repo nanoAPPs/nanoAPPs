@@ -6,7 +6,9 @@ Vue.use(Vuex)
 
 const { store, rootActionContext, moduleActionContext } = createDirectStore({
   strict: process.env.NODE_ENV !== 'production',
-  state: {},
+  state: {
+    appVersion: process.env.VUE_APP_VERSION || '_DEV_',
+  },
   mutations: {},
   actions: {},
   modules: {},

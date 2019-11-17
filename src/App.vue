@@ -1,6 +1,6 @@
 <template>
   <v-app id="nanoapps">
-    <v-navigation-drawer v-model="drawer" :permanent="permanent" mobile-break-point="991" enable-resize-watcher app>
+    <v-navigation-drawer v-model="drawerToggle" mobile-break-point="991" enable-resize-watcher app>
       <v-list id="app_drawer_title" dense>
         <v-list-item color="primary">
           <div class="title-header">
@@ -11,10 +11,6 @@
           <div class="title-text">
             nanoAPPs
           </div>
-          <v-btn icon @click.stop="permanent = !permanent">
-            <v-icon v-if="!permanent">mdi-pin-outline</v-icon>
-            <v-icon v-if="permanent">mdi-pin-off-outline</v-icon>
-          </v-btn>
         </v-list-item>
       </v-list>
       <v-list dense>
@@ -28,7 +24,7 @@
     </v-navigation-drawer>
 
     <v-app-bar color="primary" dense dark app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="!permanent" />
+      <v-app-bar-nav-icon @click.stop="drawerToggle = !drawerToggle" />
       <v-toolbar-title>{{ route.meta.title }}</v-toolbar-title>
       <div class="flex-grow-1"></div>
       <v-btn v-if="fullscreenEnabled" icon @click.stop="toggleFullscreenBtn">
@@ -58,7 +54,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, ref } from '@vue/composition-api'
+import { createComponent, ref, onMounted, onUnmounted } from '@vue/composition-api'
 import screenfull from 'screenfull'
 import { Screenfull } from 'screenfull'
 import store from '@/services/store'
@@ -74,11 +70,25 @@ export default createComponent({
   setup(props, context) {
     let version = ref(store.state.appVersion)
     let { route } = useRouter()
-    let drawer = ref(false)
-    let permanent = ref(false)
+    let drawerToggle = ref(false)
     let fullscreenEnabled = ref(screenfull.isEnabled)
     let isFullscreen = ref(screenfull.isEnabled && screenfull.isFullscreen)
     let updateAvailable = ref(false)
+
+    const windowResized = () => {
+      log('windowResized: ' + window.innerWidth)
+    }
+
+    onMounted(() => {
+      if (window.innerWidth >= 991) {
+        drawerToggle.value = true
+      }
+      window.addEventListener('resize', windowResized)
+    })
+
+    onUnmounted(() => {
+      window.removeEventListener('resize', windowResized)
+    })
 
     if (screenfull.isEnabled) {
       screenfull.on('change', () => {
@@ -106,8 +116,7 @@ export default createComponent({
 
     return {
       route,
-      drawer,
-      permanent,
+      drawerToggle,
       version,
       links,
       fullscreenEnabled,
@@ -144,7 +153,7 @@ export default createComponent({
   .title-text
     display: block
     float: left
-    width: 55%
+    width: 100%
     padding-top: 4px
     padding-bottom: 10px
     color: black

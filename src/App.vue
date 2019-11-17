@@ -1,6 +1,6 @@
 <template>
   <v-app id="nanoapps">
-    <v-navigation-drawer v-model="drawer" mobile-break-point="991" enable-resize-watcher app>
+    <v-navigation-drawer v-model="drawer" :permanent="permanent" mobile-break-point="991" enable-resize-watcher app>
       <v-list id="app_drawer_title" dense>
         <v-list-item color="primary">
           <div class="title-header">
@@ -11,6 +11,10 @@
           <div class="title-text">
             nanoAPPs
           </div>
+          <v-btn icon @click.stop="permanent = !permanent">
+            <v-icon v-if="!permanent">mdi-pin-outline</v-icon>
+            <v-icon v-if="permanent">mdi-pin-off-outline</v-icon>
+          </v-btn>
         </v-list-item>
       </v-list>
       <v-list dense>
@@ -24,8 +28,8 @@
     </v-navigation-drawer>
 
     <v-app-bar color="primary" dense dark app>
-      <v-app-bar-nav-icon @click.stop="onClickNavIconBtn" />
-      <v-toolbar-title>{{ title }}</v-toolbar-title>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="!permanent" />
+      <v-toolbar-title>{{ route.meta.title }}</v-toolbar-title>
       <div class="flex-grow-1"></div>
       <v-btn v-if="fullscreenEnabled" icon @click.stop="toggleFullscreenBtn">
         <v-icon v-if="!isFullscreen">mdi-fullscreen</v-icon>
@@ -58,6 +62,7 @@ import { createComponent, ref } from '@vue/composition-api'
 import screenfull from 'screenfull'
 import { Screenfull } from 'screenfull'
 import store from '@/services/store'
+import { useRouter } from '@/services/router'
 // Log
 import { getLogger } from '@/services/logging'
 const log = getLogger('App')
@@ -68,8 +73,9 @@ export default createComponent({
   },
   setup(props, context) {
     let version = ref(store.state.appVersion)
-    let title = ref('nanoAPPs')
+    let { route } = useRouter()
     let drawer = ref(false)
+    let permanent = ref(false)
     let fullscreenEnabled = ref(screenfull.isEnabled)
     let isFullscreen = ref(screenfull.isEnabled && screenfull.isFullscreen)
     let updateAvailable = ref(false)
@@ -99,13 +105,11 @@ export default createComponent({
     }
 
     return {
-      title,
+      route,
       drawer,
+      permanent,
       version,
       links,
-      onClickNavIconBtn() {
-        drawer.value = !drawer.value
-      },
       fullscreenEnabled,
       isFullscreen,
       toggleFullscreenBtn() {
@@ -140,7 +144,7 @@ export default createComponent({
   .title-text
     display: block
     float: left
-    width: 100%
+    width: 55%
     padding-top: 4px
     padding-bottom: 10px
     color: black

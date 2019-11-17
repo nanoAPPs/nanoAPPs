@@ -7,9 +7,9 @@ interface VueRuntime {
 const runtime: VueRuntime = {}
 
 export function setVueRuntime(vm: Vue) {
-  if (typeof vm.$options.setup === 'function') {
-    runtime.vm = vm
-  }
+  // if (typeof vm.$options.setup === 'function') {
+  runtime.vm = vm
+  //}
 }
 
 export function getVueRuntime(): Vue {

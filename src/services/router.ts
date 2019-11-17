@@ -14,6 +14,9 @@ const navRoutes = <Array<RouteConfig>>[
     name: 'home',
     component: Home,
     props: true,
+    meta: {
+      title: 'Home',
+    },
   },
   {
     path: '/about',
@@ -23,6 +26,9 @@ const navRoutes = <Array<RouteConfig>>[
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
     props: true,
+    meta: {
+      title: 'About',
+    },
   },
 ]
 

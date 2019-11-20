@@ -155,7 +155,7 @@ export default createComponent({
     float: left
     width: 100%
     padding-top: 4px
-    padding-bottom: 10px
+    padding-bottom: 5px
     color: black
     font-weight: bold
     margin-left: 75px

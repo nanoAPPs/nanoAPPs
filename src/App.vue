@@ -41,9 +41,7 @@
     </v-system-bar>
 
     <v-content>
-      <v-container class="fill-height" fluid>
-        <router-view />
-      </v-container>
+      <router-view />
     </v-content>
     <v-footer color="primary" class="footer-shadow" dark app>
       <span class="font-weight-light">v.{{ version }}</span>
@@ -59,6 +57,7 @@ import screenfull from 'screenfull'
 import { Screenfull } from 'screenfull'
 import store from '@/services/store'
 import { useRouter } from '@/services/router'
+import { mainMenu } from '@/services/mainMenu'
 // Log
 import { getLogger } from '@/services/logging'
 const log = getLogger('App')
@@ -96,18 +95,7 @@ export default createComponent({
       })
     }
 
-    let links = ref([
-      {
-        to: '/',
-        icon: 'mdi-home',
-        text: 'Inicio',
-      },
-      {
-        to: '/about',
-        icon: 'mdi-information-outline',
-        text: 'Acerca de nanoAPPs',
-      },
-    ])
+    let links = ref(mainMenu)
 
     window.nanoapps_pwa_updated = function() {
       // vetur reporta un error en la línea anterior, pero Typescript compila
@@ -155,7 +143,7 @@ export default createComponent({
     float: left
     width: 100%
     padding-top: 4px
-    padding-bottom: 10px
+    padding-bottom: 5px
     color: black
     font-weight: bold
     margin-left: 75px

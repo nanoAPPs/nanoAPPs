@@ -5,6 +5,10 @@ import { computed } from '@vue/composition-api'
 import { getVueRuntime } from '@/utils/vueRuntime'
 
 import Home from '@/views/Home.vue'
+import About from '@/views/About.vue'
+
+// Routes from modules
+import odooProjectTestRoutes from '@/modules/odoo-project-test/routes'
 
 Vue.use(VueRouter)
 
@@ -18,13 +22,11 @@ const navRoutes = <Array<RouteConfig>>[
       title: 'Home',
     },
   },
+  ...odooProjectTestRoutes,
   {
     path: '/about',
     name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    component: About,
     props: true,
     meta: {
       title: 'About',

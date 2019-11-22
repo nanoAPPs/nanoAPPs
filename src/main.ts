@@ -10,7 +10,7 @@ import App from '@/App.vue'
 import '@/registerServiceWorker'
 // Fonts & Styles
 import '@/assets/font/muli-font.css'
-import '@/assets/font/handlee-font.css'
+import '@/assets/font/chilanka-font.css'
 import '@mdi/font/css/materialdesignicons.css'
 import '@/styles/main.sass'
 

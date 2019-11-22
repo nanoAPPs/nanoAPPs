@@ -15,13 +15,13 @@
         <v-expansion-panel-content>
           <v-row justify="space-around">
             <v-col cols="12">
-              <v-text-field clearable label="Servidor" v-model="connectionSettings.server"></v-text-field>
+              <v-text-field clearable label="Servidor" class="user-input" v-model="connectionSettings.server"></v-text-field>
             </v-col>
             <v-col cols="4">
-              <v-text-field clearable label="Base de datos" v-model="connectionSettings.database"></v-text-field>
+              <v-text-field clearable label="Base de datos" class="user-input" v-model="connectionSettings.database"></v-text-field>
             </v-col>
             <v-col cols="4">
-              <v-text-field clearable label="Usuario" v-model="connectionSettings.user"></v-text-field>
+              <v-text-field clearable label="Usuario" class="user-input" v-model="connectionSettings.user"></v-text-field>
             </v-col>
             <v-col cols="4">
               <v-text-field
@@ -30,6 +30,7 @@
                 @click:append="showPassword = !showPassword"
                 :type="showPassword ? 'text' : 'password'"
                 label="Contraseña"
+                class="user-input"
                 v-model="connectionSettings.password"
               ></v-text-field>
             </v-col>
@@ -109,6 +110,7 @@
             <v-col cols="12">
               <v-autocomplete
                 label="Proyecto"
+                class="user-input"
                 v-model="project"
                 :items="projects"
                 item-value="id"
@@ -120,6 +122,7 @@
             <v-col cols="12">
               <v-autocomplete
                 label="Tarea"
+                class="user-input"
                 v-model="task"
                 :items="projectTasks"
                 item-value="id"

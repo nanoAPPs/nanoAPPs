@@ -9,8 +9,13 @@ if (process.env.NODE_ENV === 'production') {
         'App is being served from cache by a service worker.\n' + 'For more details, visit https://goo.gl/AFskqB'
       )
     },
-    registered() {
+    registered(registration) {
       console.log('Service worker has been registered.')
+      setTimeout(function checkUpdates() {
+        console.log('Service worker checking for updates...')
+        registration.update()
+        setTimeout(checkUpdates, 60000) // reprogramamos para dentro de 1 minuto
+      }, 60000)
     },
     cached() {
       console.log('Content has been cached for offline use.')

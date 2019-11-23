@@ -46,10 +46,10 @@
     <v-footer color="primary" class="footer-shadow" dark app>
       <span class="font-weight-light">v.{{ version }}</span>
       <div class="flex-grow-1"></div>
-      <span class="font-weight-light">{{ $vuetify.breakpoint.name }}</span>
-      <div class="flex-grow-1"></div>
-      <v-icon v-if="!isOnline">mdi-cloud-off-outline</v-icon>
-      <v-icon v-if="isOnline">mdi-cloud-outline</v-icon>
+      <div class="status-icons">
+        <v-icon v-if="!isOnline">mdi-cloud-off-outline</v-icon>
+        <v-icon v-if="isOnline">mdi-cloud-outline</v-icon>
+      </div>
     </v-footer>
   </v-app>
 </template>
@@ -169,7 +169,11 @@ export default createComponent({
 .v-system-bar.center
   text-align: center
 .v-footer
-  font-size: smaller
+  font-size: 13px
+  .status-icons
+    height: 20px
+    .v-icon
+      font-size: 20px
 .footer-shadow
   box-shadow: 0 -3px 3px -2px rgba(0, 0, 0, 0.2), 0 -3px 4px 0 rgba(0, 0, 0, 0.14), 0 -1px 8px 0 rgba(0, 0, 0, 0.12)
   -webkit-box-shadow: 0 -3px 3px -2px rgba(0, 0, 0, 0.2), 0 -3px 4px 0 rgba(0, 0, 0, 0.14), 0 -1px 8px 0 rgba(0, 0, 0, 0.12)

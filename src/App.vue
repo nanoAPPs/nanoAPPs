@@ -47,6 +47,9 @@
       <span class="font-weight-light">v.{{ version }}</span>
       <div class="flex-grow-1"></div>
       <span class="font-weight-light">{{ $vuetify.breakpoint.name }}</span>
+      <div class="flex-grow-1"></div>
+      <v-icon v-if="!isOnline">mdi-cloud-off-outline</v-icon>
+      <v-icon v-if="isOnline">mdi-cloud-outline</v-icon>
     </v-footer>
   </v-app>
 </template>
@@ -67,26 +70,37 @@ export default createComponent({
     source: String,
   },
   setup(props, context) {
-    let version = ref(store.state.appVersion)
-    let { route } = useRouter()
-    let drawerToggle = ref(false)
-    let fullscreenEnabled = ref(screenfull.isEnabled)
-    let isFullscreen = ref(screenfull.isEnabled && screenfull.isFullscreen)
-    let updateAvailable = ref(false)
+    const version = ref(store.state.appVersion)
+    const { route } = useRouter()
+    const drawerToggle = ref(false)
+    const fullscreenEnabled = ref(screenfull.isEnabled)
+    const isFullscreen = ref(screenfull.isEnabled && screenfull.isFullscreen)
+    const updateAvailable = ref(false)
+    const isOnline = ref(false)
 
     const windowResized = () => {
       log('windowResized: ' + window.innerWidth)
     }
 
+    const onlineStatusUpdated = () => {
+      isOnline.value = navigator.onLine
+    }
+
+    window.addEventListener('resize', windowResized)
+    window.addEventListener('offline', onlineStatusUpdated)
+    window.addEventListener('online', onlineStatusUpdated)
+
     onMounted(() => {
       if (window.innerWidth >= 991) {
         drawerToggle.value = true
       }
-      window.addEventListener('resize', windowResized)
+      onlineStatusUpdated()
     })
 
     onUnmounted(() => {
       window.removeEventListener('resize', windowResized)
+      window.removeEventListener('offline', onlineStatusUpdated)
+      window.removeEventListener('online', onlineStatusUpdated)
     })
 
     if (screenfull.isEnabled) {
@@ -120,6 +134,7 @@ export default createComponent({
         }
       },
       updateAvailable,
+      isOnline,
     }
   },
 })

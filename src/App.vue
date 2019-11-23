@@ -33,10 +33,11 @@
       </v-btn>
     </v-app-bar>
 
-    <v-system-bar v-if="updateAvailable" color="warning lighten-1" class="center black--text" fixed window app>
+    <v-system-bar v-if="!updateAvailable" color="warning lighten-1" class="black--text" fixed window app>
       <div class="flex">
         <v-icon>mdi-alert</v-icon>
-        <span>Please, restart to load new version of the APP.</span>
+        <!--<span>Please, restart to load new version of the APP.</span>-->
+        <span>New version available, touch here to apply.</span>
       </div>
     </v-system-bar>
 
@@ -166,8 +167,9 @@ export default createComponent({
     position: relative
     top: 25px
     margin-left: 10px
-.v-system-bar.center
+.v-system-bar
   text-align: center
+  cursor: pointer
 .v-footer
   font-size: 13px
   .status-icons

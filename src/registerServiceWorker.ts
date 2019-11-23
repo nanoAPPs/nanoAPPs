@@ -23,10 +23,10 @@ if (process.env.NODE_ENV === 'production') {
     updatefound() {
       console.log('New content is downloading.')
     },
-    updated() {
+    updated(registration) {
       console.log('New content is available; please refresh.')
       if (typeof window.nanoapps_pwa_updated === 'function') {
-        window.nanoapps_pwa_updated()
+        window.nanoapps_pwa_updated(registration)
       }
     },
     offline() {

@@ -33,7 +33,15 @@
       </v-btn>
     </v-app-bar>
 
-    <v-system-bar v-if="!updateAvailable" color="warning lighten-1" class="black--text" fixed window app>
+    <v-system-bar
+      v-if="updateAvailable"
+      @click.stop="loadUpdatedApp"
+      color="warning lighten-1"
+      class="black--text"
+      fixed
+      window
+      app
+    >
       <div class="flex">
         <v-icon>mdi-alert</v-icon>
         <!--<span>Please, restart to load new version of the APP.</span>-->
@@ -112,9 +120,26 @@ export default createComponent({
 
     let links = ref(mainMenu)
 
-    window.nanoapps_pwa_updated = function() {
-      // vetur reporta un error en la línea anterior, pero Typescript compila
+    var refreshing = false
+    // When the user asks to refresh the UI, we'll need to reload the window
+    navigator.serviceWorker.addEventListener('controllerchange', function(event) {
+      if (refreshing) return // prevent infinite refresh loop when you use "Update on Reload" on Dev. Tools
+      refreshing = true
+      log('SW Controller loaded')
+      window.location.reload()
+    })
+    var updateLoadRequested = false
+    var registration: ServiceWorkerRegistration
+    const loadUpdatedApp = () => {
+      if (updateLoadRequested) return
+      updateLoadRequested = true
+      if (!registration.waiting) return
+      registration.waiting.postMessage({ type: 'SKIP_WAITING' })
+    }
+    window.nanoapps_pwa_updated = function(reg) {
+      log('Update available')
       updateAvailable.value = true
+      registration = reg
     }
 
     return {
@@ -135,6 +160,7 @@ export default createComponent({
         }
       },
       updateAvailable,
+      loadUpdatedApp,
       isOnline,
     }
   },

@@ -120,27 +120,27 @@ export default createComponent({
 
     let links = ref(mainMenu)
 
-    var refreshing = false
-    // When the user asks to refresh the UI, we'll need to reload the window
-    navigator.serviceWorker.addEventListener('controllerchange', function(event) {
-      if (refreshing) return // prevent infinite refresh loop when you use "Update on Reload" on Dev. Tools
-      refreshing = true
-      log('SW Controller loaded')
-      window.location.reload()
-    })
-    var updateLoadRequested = false
     var registration: ServiceWorkerRegistration
+    window.nanoapps_pwa_updated = function(reg) {
+      log('Update available')
+      updateAvailable.value = true
+      registration = reg
+    }
+    var updateLoadRequested = false
     const loadUpdatedApp = () => {
       if (updateLoadRequested) return
       updateLoadRequested = true
       if (!registration.waiting) return
       registration.waiting.postMessage({ type: 'SKIP_WAITING' })
     }
-    window.nanoapps_pwa_updated = function(reg) {
-      log('Update available')
-      updateAvailable.value = true
-      registration = reg
-    }
+    // When the user asks to refresh the UI, we'll need to reload the window
+    var refreshing = false
+    navigator.serviceWorker.addEventListener('controllerchange', function(event) {
+      if (refreshing) return // prevent infinite refresh loop when you use "Update on Reload" in Dev. Tools
+      refreshing = true
+      log('SW Controller loaded')
+      window.location.reload()
+    })
 
     return {
       route,

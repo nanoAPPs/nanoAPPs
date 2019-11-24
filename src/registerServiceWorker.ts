@@ -14,8 +14,8 @@ if (process.env.NODE_ENV === 'production') {
       setTimeout(function checkUpdates() {
         console.log('Service worker checking for updates...')
         registration.update()
-        setTimeout(checkUpdates, 60000) // reprogramamos para dentro de 1 minuto
-      }, 60000)
+        setTimeout(checkUpdates, 600000) // reprogramamos para dentro de 10 minutos
+      }, 600000)
     },
     cached() {
       console.log('Content has been cached for offline use.')

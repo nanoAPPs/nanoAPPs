@@ -68,6 +68,7 @@ import { createComponent, ref, onMounted, onUnmounted } from '@vue/composition-a
 import screenfull from 'screenfull'
 import { Screenfull } from 'screenfull'
 import store from '@/services/store'
+import database from '@/services/database'
 import { useRouter } from '@/services/router'
 import { mainMenu } from '@/services/mainMenu'
 // Log
@@ -110,6 +111,8 @@ export default createComponent({
       window.removeEventListener('resize', windowResized)
       window.removeEventListener('offline', onlineStatusUpdated)
       window.removeEventListener('online', onlineStatusUpdated)
+      log('Closing database...')
+      const promise = database.close('nanoAPPs-DB')
     })
 
     if (screenfull.isEnabled) {

@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueCompositionApi from '@vue/composition-api'
 import router from '@/services/router'
 import store from '@/services/store'
+// To test database works:
+import database from '@/services/database'
 import vuetify from '@/plugins/vuetify'
 import { setVueRuntime } from '@/utils/vueRuntime'
 // Application import
@@ -33,3 +35,24 @@ const vm = new Vue({
 })
 setVueRuntime(vm)
 vm.$mount('#app')
+
+// To test database works:
+async function startApp() {
+  log('startApp', "Let's go!")
+  // Initialize System module
+  // store.registerModule(system.name, system.store)
+  // router.addRoutes(system.routes)
+  // await store.dispatch(system.name + '/initialize', null, { root: true })
+
+  try {
+    log('startApp', 'Opening database...')
+    const promise = database.open('nanoAPPs-DB')
+    log('startApp', 'waiting for database...')
+    // wait for database
+    const db = await promise
+    log('startApp', 'Database opened!')
+    log('startApp', await db.name)
+  } catch (error) {
+    log('startApp', 'Error opening Database!', error)
+  }
+}

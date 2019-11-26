@@ -10,7 +10,7 @@
 import debug from 'debug'
 import { Dictionary } from 'typescript-collections'
 
-debug.enable('nanoapps:*')
+debug.enable('nanoapps:*,pouchdb:*,-pouchdb:api')
 const loggers: Dictionary<string, debug.Debugger> = new Dictionary()
 
 export function getLogger(name: string): debug.Debugger {

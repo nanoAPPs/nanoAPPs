@@ -15,10 +15,8 @@ const { store, rootActionContext, moduleActionContext } = createDirectStore({
 } as const)
 
 // Export the direct-store instead of the classic Vuex store.
-export default store
-
 // The following exports will be used to enable types in the implementation of actions.
-export { rootActionContext, moduleActionContext }
+export { store, rootActionContext, moduleActionContext }
 
 // The following lines enable types in the injected store '$store'.
 export type AppStore = typeof store

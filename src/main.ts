@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueCompositionApi from '@vue/composition-api'
-import router from '@/services/router'
-import store from '@/services/store'
+import { router } from '@/services/router'
+import { store } from '@/services/store'
 // To test database works:
-import database from '@/services/database'
+import { database } from '@/services/database'
 import vuetify from '@/plugins/vuetify'
 import { setVueRuntime } from '@/utils/vueRuntime'
 // Application import

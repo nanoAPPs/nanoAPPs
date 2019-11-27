@@ -34,13 +34,11 @@ const navRoutes = <Array<RouteConfig>>[
   },
 ]
 
-const router = new VueRouter(<RouterOptions>{
+export const router = new VueRouter(<RouterOptions>{
   mode: 'history',
   base: process.env.BASE_URL,
   routes: navRoutes,
 })
-
-export default router
 
 export function useRouter() {
   const vm = getVueRuntime()

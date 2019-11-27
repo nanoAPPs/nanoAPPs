@@ -67,8 +67,8 @@
 import { createComponent, ref, onMounted, onUnmounted } from '@vue/composition-api'
 import screenfull from 'screenfull'
 import { Screenfull } from 'screenfull'
-import store from '@/services/store'
-import database from '@/services/database'
+import { store } from '@/services/store'
+import { database } from '@/services/database'
 import { useRouter } from '@/services/router'
 import { mainMenu } from '@/services/mainMenu'
 // Log

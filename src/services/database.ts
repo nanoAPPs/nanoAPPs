@@ -24,7 +24,7 @@ PouchDB.plugin(debugPlugin)
 
 const dbs: Dictionary<string, any> = new Dictionary()
 
-export default {
+export const database = {
   async open(name: string) {
     log('open', 'Open database ' + name)
     let db = dbs.getValue(name)

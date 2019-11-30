@@ -295,7 +295,7 @@ export default createComponent({
         ;(projectTasks.value as any) = tasks.value.filter(function(t: any) {
           return t.project_id === project && t.parent_id === 0
         })
-        if (task.value) task.value = null
+        projectSubTasks.value = []
         log(projectTasks.value)
       }
     })
@@ -307,8 +307,6 @@ export default createComponent({
           return t.parent_id === task
         })
         log(projectSubTasks.value)
-      } else {
-        projectSubTasks.value = []
       }
     })
 

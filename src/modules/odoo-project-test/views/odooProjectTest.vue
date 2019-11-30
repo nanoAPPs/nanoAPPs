@@ -145,6 +145,18 @@
               ></v-autocomplete>
             </v-col>
           </v-row>
+          <v-row justify="space-around">
+            <v-col cols="12">
+              <v-autocomplete
+                label="Subtarea"
+                class="user-input"
+                v-model="subtask"
+                :items="projectSubTasks"
+                item-value="id"
+                item-text="name"
+              ></v-autocomplete>
+            </v-col>
+          </v-row>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -153,6 +165,7 @@
 
 <script lang="ts">
 import { createComponent, ref, watch } from '@vue/composition-api'
+import { OdooClient } from '@/services/odoo'
 import axios from 'axios'
 // Log
 import { getLogger } from '@/services/logging'
@@ -161,6 +174,7 @@ const log = getLogger('odoo-project-test')
 export default createComponent({
   name: 'odoo-project-test',
   setup(props, context) {
+    var odooClient: OdooClient
     const connectionSettings = ref({
       server: 'https://regenasa-for.odooserver.net',
       database: '',
@@ -175,144 +189,126 @@ export default createComponent({
     let odooUserId = 1
     const modulesMessage = ref('Pulsa "LEER" para obtener la lista de módulos instalados')
     const projectsMessage = ref('Pulsa "LEER" para obtener proyectos y tareas')
-    const projects = ref([{ id: 0, name: 'No se han cargado los datos' }, { id: 1, name: 'Proyecto 1' }])
-    const tasks = ref([
-      { id: 0, project_id: 0, name: 'No se han cargado los datos' },
-      { id: 1, project_id: 1, name: 'Tarea 1' },
-    ])
+    const projects = ref([])
+    const tasks = ref([])
     const projectTasks = ref([])
+    const projectSubTasks = ref([])
     const project = ref()
     const task = ref()
+    const subtask = ref()
 
     const runConnectionTest = () => {
       log('runConnectionTest')
       connectionTest.value = true
-      axios
-        .post(
-          connectionSettings.value.server + '/web/session/authenticate',
-          {
-            jsonrpc: '2.0',
-            params: {
-              db: connectionSettings.value.database,
-              login: connectionSettings.value.user,
-              password: connectionSettings.value.password,
-            },
-          },
-          { headers: { 'Content-type': 'application/json' } }
+      odooClient = new OdooClient(connectionSettings.value.server)
+      odooClient
+        .authenticate(
+          connectionSettings.value.database,
+          connectionSettings.value.user,
+          connectionSettings.value.password
         )
         .then(response => {
+          log(response)
           connectionTest.value = false
-          log(response.data.result)
-          if (response.data.result) {
-            if (response.data.result.uid === false) {
-              testOK.value = false
-              testMessage.value = 'Contraseña incorrecta! - Odoo v.' + response.data.result.server_version
-            } else {
-              odooSessionId = response.data.result.session_id
-              testOK.value = true
-              testMessage.value = 'OK - Odoo v.' + response.data.result.server_version + ' sessionId: ' + odooSessionId
-            }
-          }
+          testOK.value = true
+          testMessage.value = 'OK - Odoo v.' + odooClient.serverVersion
         })
         .catch(error => {
+          log(error)
           connectionTest.value = false
-          if (!error.response) {
-            // network error
-            log('Error: Network Error')
-          } else {
-            log(error.response.data.message)
-          }
+          testMessage.value = error
         })
     }
 
     const runModulesRead = () => {
       log('runModulesRead')
+      if (odooClient == null) {
+        // TODO: Notificar que debe iniciar sesión antes
+        return
+      }
       connectionTest.value = true
-      axios
-        .post(
-          connectionSettings.value.server + '/web/dataset/call_kw',
-          {
-            jsonrpc: '2.0',
-            params: {
-              model: 'ir.module.module',
-              method: 'search_read',
-              args: [[['state', '=', 'installed']], ['name']],
-              kwargs: {
-                context: { lang: 'es_ES' },
-              },
-            },
-          },
-          {
-            headers: {
-              'Content-type': 'application/json',
-              'X-Openerp-Session-Id': odooSessionId,
-            },
-          }
-        )
+      odooClient
+        .search_read('ir.module.module', [['state', '=', 'installed']], ['name'])
         .then(response => {
+          log(response)
           connectionTest.value = false
-          log(response.data.result)
-          if (response.data.result) {
-            modulesMessage.value = 'El server tiene ' + response.data.result.length + ' módulos instalados!'
-          }
+          modulesMessage.value = 'El server tiene ' + response.length + ' módulos instalados!'
         })
         .catch(error => {
+          log(error)
           connectionTest.value = false
-          if (!error.response) {
-            // network error
-            log('Error: Network Error')
-          } else {
-            log(error.response.data.message)
-          }
         })
     }
 
     const runProjectsRead = () => {
       log('runProjectsRead')
+      if (odooClient == null) {
+        // TODO: Notificar que debe iniciar sesión antes
+        return
+      }
       connectionTest.value = true
-      axios
-        .post(
-          connectionSettings.value.server + '/web/dataset/call_kw',
-          {
-            jsonrpc: '2.0',
-            params: {
-              model: 'ir.module.module',
-              method: 'search_read',
-              args: [[['state', '=', 'installed']], ['name']],
-              kwargs: {
-                context: { lang: 'es_ES' },
-              },
-            },
-          },
-          {
-            headers: {
-              'Content-type': 'application/json',
-              'X-Openerp-Session-Id': odooSessionId,
-            },
-          }
-        )
-        .then(response => {
+      let reads: [Promise<any>, Promise<any>] = [
+        odooClient.search_read('project.project', [['is_template', '=', false]], ['project_code', 'name']),
+        odooClient.search_read(
+          'project.task',
+          [['active', '=', true]],
+          ['project_id', 'parent_id', 'full_code', 'name']
+        ),
+      ]
+      Promise.all(reads)
+        .then((results: any[]) => {
           connectionTest.value = false
-          log(response.data.result)
-          if (response.data.result) {
-            modulesMessage.value = 'El server tiene ' + response.data.result.length + ' módulos instalados!'
-          }
+          let newProjects: any = results[0]
+          log('Projects:', newProjects)
+          ;(projects.value as any) = newProjects.map(function(p: any) {
+            return {
+              id: p.id,
+              name: p.project_code + ' - ' + p.name,
+            }
+          })
+          log(projects.value)
+          let newTasks: any = results[1]
+          log('Tasks:', newTasks[1])
+          ;(tasks.value as any) = newTasks.map(function(t: any) {
+            let parent = 0
+            if (t.parent_id) {
+              parent = t.parent_id[0]
+            }
+            return {
+              id: t.id,
+              project_id: t.project_id[0],
+              parent_id: parent,
+              name: t.full_code + ' - ' + t.name,
+            }
+          })
+          projectsMessage.value = 'Se han leído ' + newProjects.length + ' proyectos y ' + newTasks.length + ' tareas.'
         })
         .catch(error => {
+          log(error)
           connectionTest.value = false
-          if (!error.response) {
-            // network error
-            log('Error: Network Error')
-          } else {
-            log(error.response.data.message)
-          }
         })
     }
 
     watch(project, (project, prevProject) => {
-      log(project)
+      log('Ha cambiado el proyecto: ', project)
       if (project != null) {
-        ;(projectTasks.value as any) = tasks.value.filter(t => t.project_id === project)
+        ;(projectTasks.value as any) = tasks.value.filter(function(t: any) {
+          return t.project_id === project && t.parent_id === 0
+        })
+        task.value = null
+        log(projectTasks.value)
+      }
+    })
+
+    watch(task, (task, prevTask) => {
+      log('Ha cambiado la tarea: ', task)
+      if (task != null) {
+        ;(projectSubTasks.value as any) = tasks.value.filter(function(t: any) {
+          return t.parent_id === task
+        })
+        log(projectSubTasks.value)
+      } else {
+        projectSubTasks.value = []
       }
     })
 
@@ -329,9 +325,11 @@ export default createComponent({
       projects,
       tasks,
       projectTasks,
+      projectSubTasks,
       runProjectsRead,
       project,
       task,
+      subtask,
     } // las props se pasan automáticamente, no es necesario devolverlas aquí.
   },
 })

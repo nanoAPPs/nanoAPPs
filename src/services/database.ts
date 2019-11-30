@@ -1,3 +1,29 @@
+/*
+  PouchDB Database Service
+
+  Packages to install:
+    npm install --save-exact pouchdb-core pouchdb-adapter-http pouchdb-mapreduce pouchdb-replication pouchdb-find pouchdb-debug
+    npm install --save-exact @scdf/pouchdb-adapter-indexeddb
+    npm install --save-exact pouchdb-adapter-utils
+    npm install -D @types/pouchdb-core @types/pouchdb-find @types/pouchdb-mapreduce @types/pouchdb-replication
+
+  Aditional types are needed:
+    shims-pouchdb-adapter-indexeddb.d.ts
+    shims-pouchdb-debug.d.ts
+    shims-pouchdb-adapter-http.d.ts
+
+  
+  Usage:
+
+  import { database } from '@/services/database'
+
+  const dbPromise = database.open('nanoAPPs-DB')
+  // wait for database
+  const db = await dbPromise
+
+  ...
+  
+*/
 import PouchDB from 'pouchdb-core'
 import indexeddb from '@scdf/pouchdb-adapter-indexeddb'
 import httpPouch from 'pouchdb-adapter-http'

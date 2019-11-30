@@ -42,32 +42,39 @@ export class OdooClient {
           password: password,
         },
       })
-      .then(response => {
-        log(response)
-        if (response.data.result) {
-          if (response.data.result.uid === false) {
-            this._authenticated = false
-          } else {
-            this._authenticated = true
-            this._serverVersion = response.data.result.server_version
-            this._context = response.data.result.user_context
+      .then(
+        response => {
+          log(response)
+          if (response.data.error) {
+            let errorMessage = response.data.error.message
+            if (response.data.error.data.arguments) {
+              errorMessage = errorMessage + '. ' + response.data.error.data.arguments[0]
+            }
+            throw errorMessage
           }
-        } else {
+          if (response.data.result) {
+            if (response.data.result.uid) {
+              this._authenticated = true
+              this._serverVersion = response.data.result.server_version
+              this._context = response.data.result.user_context
+              return true
+            }
+          }
           this._authenticated = false
+          throw 'Invalid login credentials'
+        },
+        error => {
+          log(error)
+          this._authenticated = false
+          let errorMessage: string
+          if (!error.response) {
+            errorMessage = 'Odoo server unreachable'
+          } else {
+            errorMessage = error.response.data.message
+          }
+          throw errorMessage
         }
-        return this._authenticated
-      })
-      .catch(error => {
-        log(error)
-        this._authenticated = false
-        let errorMessage: string
-        if (!error.response) {
-          errorMessage = 'Odoo server unreachable'
-        } else {
-          errorMessage = error.response.data.message
-        }
-        return errorMessage
-      })
+      )
   }
 
   public async search_read(model: string, domain: Array<any>, fields: Array<any>) {
@@ -86,10 +93,11 @@ export class OdooClient {
       .then(response => {
         log(response)
         if (response.data.error) {
-          // TODO: Comprobar la forma de lanzar un error en este caso
-          return new Promise((resolve, reject) => {
-            reject(response.data.error.message)
-          })
+          let errorMessage = response.data.error.message
+          if (response.data.error.data.arguments) {
+            errorMessage = errorMessage + '. ' + response.data.error.data.arguments[0]
+          }
+          throw errorMessage
         }
         return response.data.result
       })

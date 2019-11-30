@@ -207,17 +207,19 @@ export default createComponent({
           connectionSettings.value.user,
           connectionSettings.value.password
         )
-        .then(response => {
-          log(response)
-          connectionTest.value = false
-          testOK.value = true
-          testMessage.value = 'OK - Odoo v.' + odooClient.serverVersion
-        })
-        .catch(error => {
-          log(error)
-          connectionTest.value = false
-          testMessage.value = error
-        })
+        .then(
+          response => {
+            log(response)
+            connectionTest.value = false
+            testOK.value = true
+            testMessage.value = 'OK - Odoo v.' + odooClient.serverVersion
+          },
+          error => {
+            log(error)
+            connectionTest.value = false
+            testMessage.value = error
+          }
+        )
     }
 
     const runModulesRead = () => {
@@ -227,17 +229,17 @@ export default createComponent({
         return
       }
       connectionTest.value = true
-      odooClient
-        .search_read('ir.module.module', [['state', '=', 'installed']], ['name'])
-        .then(response => {
+      odooClient.search_read('ir.module.module', [['state', '=', 'installed']], ['name']).then(
+        response => {
           log(response)
           connectionTest.value = false
           modulesMessage.value = 'El server tiene ' + response.length + ' módulos instalados!'
-        })
-        .catch(error => {
+        },
+        error => {
           log(error)
           connectionTest.value = false
-        })
+        }
+      )
     }
 
     const runProjectsRead = () => {
@@ -255,8 +257,8 @@ export default createComponent({
           ['project_id', 'parent_id', 'full_code', 'name']
         ),
       ]
-      Promise.all(reads)
-        .then((results: any[]) => {
+      Promise.all(reads).then(
+        (results: any[]) => {
           connectionTest.value = false
           let newProjects: any = results[0]
           log('Projects:', newProjects)
@@ -282,11 +284,12 @@ export default createComponent({
             }
           })
           projectsMessage.value = 'Se han leído ' + newProjects.length + ' proyectos y ' + newTasks.length + ' tareas.'
-        })
-        .catch(error => {
+        },
+        error => {
           log(error)
           connectionTest.value = false
-        })
+        }
+      )
     }
 
     watch(project, (project, prevProject) => {

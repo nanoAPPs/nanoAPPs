@@ -295,7 +295,7 @@ export default createComponent({
         ;(projectTasks.value as any) = tasks.value.filter(function(t: any) {
           return t.project_id === project && t.parent_id === 0
         })
-        task.value = null
+        if (task.value) task.value = null
         log(projectTasks.value)
       }
     })

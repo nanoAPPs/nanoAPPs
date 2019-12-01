@@ -253,7 +253,7 @@ export default createComponent({
         odooClient.search_read('project.project', [['is_template', '=', false]], ['project_code', 'name']),
         odooClient.search_read(
           'project.task',
-          [['active', '=', true]],
+          [['parent_id.is_template', '=', false]],
           ['project_id', 'parent_id', 'full_code', 'name']
         ),
       ]

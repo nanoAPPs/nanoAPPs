@@ -1,6 +1,6 @@
 {
   "name": "nanoapps",
-  "version": "0.1.38",
+  "version": "0.1.40",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

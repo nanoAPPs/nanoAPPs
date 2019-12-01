@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="mycontent">
     <v-expansion-panels>
       <v-expansion-panel>
         <v-expansion-panel-header class="font-weight-bold" v-slot="{ open }">
@@ -253,7 +253,7 @@ export default createComponent({
         odooClient.search_read('project.project', [['is_template', '=', false]], ['project_code', 'name']),
         odooClient.search_read(
           'project.task',
-          [['parent_id.is_template', '=', false]],
+          [['project_id.is_template', '=', false]],
           ['project_id', 'parent_id', 'full_code', 'name']
         ),
       ]
@@ -336,4 +336,9 @@ export default createComponent({
 })
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="sass" scoped>
+.mycontent
+  .col
+    padding-top: 0
+    padding-bottom: 0
+</style>

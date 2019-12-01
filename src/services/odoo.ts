@@ -90,26 +90,28 @@ export class OdooClient {
           },
         },
       })
-      .then(response => {
-        log(response)
-        if (response.data.error) {
-          let errorMessage = response.data.error.message
-          if (response.data.error.data.arguments) {
-            errorMessage = errorMessage + '. ' + response.data.error.data.arguments[0]
+      .then(
+        response => {
+          log(response)
+          if (response.data.error) {
+            let errorMessage = response.data.error.message
+            if (response.data.error.data.arguments) {
+              errorMessage = errorMessage + '. ' + response.data.error.data.arguments[0]
+            }
+            throw errorMessage
+          }
+          return response.data.result
+        },
+        error => {
+          log(error)
+          let errorMessage: string
+          if (!error.response) {
+            errorMessage = 'Odoo server unreachable'
+          } else {
+            errorMessage = error.response.data.message
           }
           throw errorMessage
         }
-        return response.data.result
-      })
-      .catch(error => {
-        log(error)
-        let errorMessage: string
-        if (!error.response) {
-          errorMessage = 'Odoo server unreachable'
-        } else {
-          errorMessage = error.response.data.message
-        }
-        return errorMessage
-      })
+      )
   }
 }
